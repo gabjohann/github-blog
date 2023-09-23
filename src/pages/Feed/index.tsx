@@ -1,14 +1,25 @@
-import { Header } from '../../../components/Header';
-import { FeedContainer, RepositoriesContainer } from './styles';
-import { RepositoryCard } from './components/RepositoryCard';
 import { UserCard } from './components/UserCard';
+import { Header } from '../../../components/Header';
+import { RepositoryCard } from './components/RepositoryCard';
+import {
+  FeedContainer,
+  FeedInfo,
+  InputField,
+  RepositoriesContainer,
+} from './styles';
 
 export function Feed() {
   return (
     <>
       <Header />
       <UserCard />
+
       <FeedContainer>
+        <FeedInfo>
+          <h1>Publicações</h1>
+          <span>6 publicações</span>
+        </FeedInfo>
+        <InputField type='text' placeholder='Buscar conteúdo' />
         <RepositoriesContainer>
           <RepositoryCard
             title={'JavaScript data types and data structures'}
