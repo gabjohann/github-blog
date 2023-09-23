@@ -22,8 +22,8 @@ export const UserCardContainer = styled.div`
 export const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 1rem;
+  flex: 1;
 
   div {
     display: flex;
