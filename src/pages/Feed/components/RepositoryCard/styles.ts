@@ -24,5 +24,6 @@ export const RepositoryCardComponent = styled.div`
     color: ${(props) => props.theme.text};
     font: 400 1rem Nunito, sans-serif;
     margin-top: 1.25rem;
+    word-wrap: break-word;
   }
 `;
