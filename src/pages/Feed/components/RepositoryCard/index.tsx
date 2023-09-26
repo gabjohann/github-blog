@@ -2,7 +2,7 @@ import { RepositoryCardComponent } from './styles';
 
 interface RepositoryCardProps {
   title: string;
-  description: string;
+  description: React.ReactNode;
   data: string;
 }
 

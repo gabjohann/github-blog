@@ -7,8 +7,46 @@ import {
   InputField,
   RepositoriesContainer,
 } from './styles';
+import { api } from '../../lib/api';
+import { useCallback, useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+
+interface IssueProps {
+  url: string;
+  id: number;
+  title: string;
+  body: string;
+}
 
 export function Feed() {
+  const [issueData, setIssueData] = useState<IssueProps[]>([]);
+
+  const fetchIssues = useCallback(async () => {
+    const response = await api.get('/search/issues', {
+      params: {
+        q: 'repo:gabjohann/github-blog',
+      },
+    });
+
+    const data = response.data;
+    setIssueData(data.items);
+  }, []);
+
+  useEffect(() => {
+    fetchIssues();
+  }, [fetchIssues]);
+
+  function formatBodyText(text: string) {
+    const maxLength = 188;
+    const ellipsis = ' ...';
+
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength - ellipsis.length) + ellipsis;
+    }
+
+    return text;
+  }
+
   return (
     <>
       <Header />
@@ -21,34 +59,20 @@ export function Feed() {
         </FeedInfo>
         <InputField type='text' placeholder='Buscar conteúdo' />
         <RepositoriesContainer>
-          <RepositoryCard
-            title={'JavaScript data types and data structures'}
-            description={
-              'Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.'
-            }
-            data={'Há 1 dia'}
-          />
-          <RepositoryCard
-            title={'teste'}
-            description={
-              'Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.'
-            }
-            data={'Há 1 dia'}
-          />
-          <RepositoryCard
-            title={'teste'}
-            description={
-              'Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.'
-            }
-            data={'Há 1 dia'}
-          />
-          <RepositoryCard
-            title={'teste'}
-            description={
-              'Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.'
-            }
-            data={'Há 1 dia'}
-          />
+          {issueData.map((issue) => {
+            return (
+              <>
+                <RepositoryCard
+                  key={issue.id}
+                  title={issue.title}
+                  description={
+                    <ReactMarkdown children={formatBodyText(issue.body)} />
+                  }
+                  data={'Há 1 dia'}
+                />
+              </>
+            );
+          })}
         </RepositoriesContainer>
       </FeedContainer>
     </>
