@@ -26,4 +26,8 @@ export const RepositoryCardComponent = styled.div`
     margin-top: 1.25rem;
     word-wrap: break-word;
   }
+
+  span {
+    color: ${(props) => props.theme.span};
+  }
 `;
